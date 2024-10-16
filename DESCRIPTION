@@ -8,7 +8,9 @@ Authors@R: c(
   )
 Description: BM25 is a ranking function used by search engines to rank matching documents according to their relevance to a user's search query. This package provides a light wrapper around the BM25 rust crate for Okapi BM25 text search.
 Encoding: UTF-8
-SystemRequirements: Cargo (Rust's package manager), rustc >= 1.65.0
+URL: https://davzim.github.io/rbm25/, https://github.com/DavZim/rbm25/
+BugReports: https://github.com/DavZim/rbm25/issues
+SystemRequirements: Cargo (Rust's package manager), rustc >= 1.71.1
 Imports: 
     R6
 Suggests: 
@@ -18,4 +20,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Config/rextendr/version: 0.3.1
 Config/testthat/edition: 3
-Config/rtiktoken/MSRV: 1.65.0
+Config/rbm25/MSRV: 1.71.1
