@@ -1,0 +1,89 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# rbm25
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+`{rbm25}` is a light wrapper around the rust [`bm25`](https://crates.io/crates/bm25) crate.
+It provides a simple interface to the [Okapi BM25 algorithm](https://en.wikipedia.org/wiki/Okapi_BM25) for text search.
+
+Note the package does not provide any text preprocessing, this needs to be done before using the package.
+
+
+## Installation
+
+You can install the development version of rbm25 like so:
+
+``` r
+# Development Version
+# devtools::install_github("DavZim/rbm25")
+
+# CRAN release
+install.packages("rbm25")
+```
+
+## Example
+
+The package exposes an R6 class `BM25` that can be used to query a text corpus.
+For simplicity, there is also a `bm25_score()` function that wraps the `BM25` class.
+
+
+```{r example}
+library(rbm25)
+# create a text corpus, where we want to find the closest matches for a query
+corpus_original <- c(
+  "The rabbit munched the orange carrot.",
+  "The snake hugged the green lizard.",
+  "The hedgehog impaled the orange orange.",
+  "The squirrel buried the brown nut."
+)
+
+# text preprocessing: tolower, remove punctuation, remove stopwords
+# note this is just an example and not the best way for larger amounts of text
+stopwords <- c("the", "a", "an", "and")
+corpus <- corpus_original |> 
+  tolower() |> 
+  gsub(pattern = "[[:punct:]]", replacement = "") |>
+  gsub(pattern = paste0("\\b(", paste(stopwords, collapse = "|"), ") *\\b"),
+       replacement = "") |> 
+  trimws()
+
+# define some metadata for the text corpus, e.g., the original text and the source
+metadata <- data.frame(
+  text_original = corpus_original,
+  source = c("book1", "book2", "book3", "book4")
+)
+```
+
+
+**Using the BM25 Class**
+
+```{r bm25-class}
+bm <- BM25$new(data = corpus, metadata = metadata)
+bm
+
+# note that query returns the values sorted by rank
+bm$query(query = "orange", max_n = 2)
+```
+
+**Using the `bm25_score()` function**
+
+```{r}
+# note that bm25_score returns the score in the order of the input data
+scores <- bm25_score(data = corpus, query = "orange")
+data.frame(text = corpus, scores_orange = scores)
+```
