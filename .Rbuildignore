@@ -3,10 +3,10 @@
 ^LICENSE\.md$
 ^src/\.cargo$
 ^README\.Rmd$
-^src/vendor/*
+^src/vendor/
 ^cran-comments\.md$
 ^\.github$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^src/rust/vendor/*
+^src/rust/vendor/
