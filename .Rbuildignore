@@ -11,3 +11,4 @@ src/vendor/*
 ^pkgdown$
 ^CRAN-SUBMISSION$
 ^src/rust/vendor$
+^src/vendor/cached/Makefile$
