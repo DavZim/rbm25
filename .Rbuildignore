@@ -10,3 +10,4 @@
 ^docs$
 ^pkgdown$
 ^src/rust/vendor/
+^src/rust/vendor$
