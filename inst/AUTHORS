@@ -1,6 +1,6 @@
 Authors of vendored cargo crates
  - ahash 0.8.11: Tom Kaitchuck
- - allocator-api2 0.2.18: Zakarum
+ - allocator-api2 0.2.21: Zakarum
  - bm25 0.3.1: Michael
  - bumpalo 3.16.0: Nick Fitzgerald
  - byteorder 1.5.0: Andrew Gallant
@@ -17,34 +17,34 @@ Authors of vendored cargo crates
  - fxhash 0.2.1: cbreeden
  - hashbrown 0.14.5: Amanieu d'Antras
  - ident_case 1.0.1: Ted Driggs
- - itoa 1.0.11: David Tolnay
- - js-sys 0.3.72: The wasm-bindgen Developers
+ - itoa 1.0.14: David Tolnay
+ - js-sys 0.3.76: The wasm-bindgen Developers
  - libR-sys 0.7.1: andy-thomason, Thomas Down, Mossa Merhi Reimert, Claus O. Wilke, Ilia A. Kosenkov, Hiroaki Yutani
  - log 0.4.22: The Rust Project Developers
  - memchr 2.7.4: Andrew Gallant, bluss
  - once_cell 1.20.2: Aleksey Kladov
  - paste 1.0.15: David Tolnay
- - proc-macro2 1.0.87: David Tolnay, Alex Crichton
- - quote 1.0.37: David Tolnay
+ - proc-macro2 1.0.92: David Tolnay, Alex Crichton
+ - quote 1.0.38: David Tolnay
  - rust-stemmers 1.2.0: Jakob Demler, CurrySoftware
  - ryu 1.0.18: David Tolnay
- - serde 1.0.210: Erick Tryzelaar, David Tolnay
- - serde_derive 1.0.210: Erick Tryzelaar, David Tolnay
- - serde_json 1.0.128: Erick Tryzelaar, David Tolnay
- - stop-words 0.8.0: Chris McComb
+ - serde 1.0.217: Erick Tryzelaar, David Tolnay
+ - serde_derive 1.0.217: Erick Tryzelaar, David Tolnay
+ - serde_json 1.0.135: Erick Tryzelaar, David Tolnay
+ - stop-words 0.8.1: Chris McComb
  - strsim 0.11.1: Danny Guo, maxbachmann
- - syn 2.0.79: David Tolnay
- - thiserror 1.0.64: David Tolnay
- - thiserror-impl 1.0.64: David Tolnay
- - unicode-ident 1.0.13: David Tolnay
+ - syn 2.0.96: David Tolnay
+ - thiserror 1.0.69: David Tolnay
+ - thiserror-impl 1.0.69: David Tolnay
+ - unicode-ident 1.0.14: David Tolnay
  - version_check 0.9.5: Sergio Benitez
- - wasm-bindgen 0.2.95: The wasm-bindgen Developers
- - wasm-bindgen-backend 0.2.95: The wasm-bindgen Developers
- - wasm-bindgen-macro 0.2.95: The wasm-bindgen Developers
- - wasm-bindgen-macro-support 0.2.95: The wasm-bindgen Developers
- - wasm-bindgen-shared 0.2.95: The wasm-bindgen Developers
+ - wasm-bindgen 0.2.99: The wasm-bindgen Developers
+ - wasm-bindgen-backend 0.2.99: The wasm-bindgen Developers
+ - wasm-bindgen-macro 0.2.99: The wasm-bindgen Developers
+ - wasm-bindgen-macro-support 0.2.99: The wasm-bindgen Developers
+ - wasm-bindgen-shared 0.2.99: The wasm-bindgen Developers
  - whichlang 0.1.0: Quickwit, Inc.
  - zerocopy 0.7.35: Joshua Liebow-Feeser
  - zerocopy-derive 0.7.35: Joshua Liebow-Feeser
 
-(This file was auto-generated from 'cargo metadata' on 2024-10-16)
+(This file was auto-generated from 'cargo metadata' on 2025-01-10)
