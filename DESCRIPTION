@@ -1,12 +1,15 @@
 Package: rbm25
-Title: A light wrapper around the BM25 rust crate for Okapi BM25 text search
-Version: 0.0.1
+Title: A Light Wrapper Around the BM25 Rust Crate for Okapi BM25 Text Search
+Version: 0.0.2
 Authors@R: c(
     person("David", "Zimmermann-Kollenda", , "david_j_zimmermann@hotmail.com", role = c("aut", "cre")),
     person("Michael Barlow", role = "aut", comment = "bm25 Rust library"),
     person("Authors of the dependency Rust crates", role = "aut", comment = "see AUTHORS file")
   )
-Description: BM25 is a ranking function used by search engines to rank matching documents according to their relevance to a user's search query. This package provides a light wrapper around the BM25 rust crate for Okapi BM25 text search.
+Description: 
+    BM25 is a ranking function used by search engines to rank matching documents according to their relevance to a user's search query.
+    This package provides a light wrapper around the BM25 rust crate for Okapi BM25 text search.
+    For more information, see see Robertson et al. (1994) <https://trec.nist.gov/pubs/trec3/t3_proceedings.html>.
 Encoding: UTF-8
 URL: https://davzim.github.io/rbm25/, https://github.com/DavZim/rbm25/
 BugReports: https://github.com/DavZim/rbm25/issues
