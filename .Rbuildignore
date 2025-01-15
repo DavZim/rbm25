@@ -12,3 +12,5 @@ src/vendor/*
 ^CRAN-SUBMISSION$
 ^src/rust/vendor$
 ^src/vendor/cached/Makefile$
+^src/rust/vendor-packages.sh$
+^src/rust/vendor-authors.R$

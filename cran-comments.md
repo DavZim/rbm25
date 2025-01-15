@@ -1,6 +1,5 @@
-Changes since last submit on 2025-01-10:
+Changes since last submit on 2025-01-14
 
-- changed Title in DESCRIPTION to title case
-- added source of original bm25 implementation
-- bump version to 0.0.2
-- updated NEWS.md
+- changed Title and Description in DESCRIPTION by using ' for software and package names
+- add `src/rust/vendor-authors.R` and `src/rust/vendor-packages.sh` to `.Rbuildignore` as they are development dependencies and are not needed when using the package or at built step
+- bump version to 0.0.3
