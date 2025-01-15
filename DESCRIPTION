@@ -1,5 +1,5 @@
 Package: rbm25
-Title: A Light Wrapper Around the 'BM25' Rust Crate for Okapi BM25 Text Search
+Title: A Light Wrapper Around the 'BM25' 'Rust' Crate for Okapi BM25 Text Search
 Version: 0.0.3
 Authors@R: c(
     person("David", "Zimmermann-Kollenda", , "david_j_zimmermann@hotmail.com", role = c("aut", "cre")),
