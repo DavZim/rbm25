@@ -3,6 +3,7 @@ name = 'rbm25'
 publish = false
 version = '0.1.0'
 edition = '2021'
+rust-version = "1.65.0"
 
 [lib]
 crate-type = [ 'staticlib' ]
@@ -10,4 +11,4 @@ name = 'rbm25'
 
 [dependencies]
 bm25 = { version = "0.3.1", features = ["language_detection"] }
-extendr-api = '*'
+extendr-api = '0.8.0'
