@@ -24,3 +24,5 @@ RoxygenNote: 7.3.2
 Config/rextendr/version: 0.3.1.9001
 Config/testthat/edition: 3
 Config/rbm25/MSRV: 1.71.1
+Depends: 
+    R (>= 4.2)
