@@ -1,3 +1,5 @@
+# rbm25 0.0.4
+
 # rbm25 0.0.2
 
 * fix CRAN comments & resubmit
