@@ -14,3 +14,6 @@ src/vendor/*
 ^src/vendor/cached/Makefile$
 ^src/rust/vendor-packages.sh$
 ^src/rust/vendor-authors.R$
+^src/rust/target$
+^src/Makevars$
+^src/Makevars\.win$
