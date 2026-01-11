@@ -14,5 +14,23 @@ build_engine <- function(corpus, language, k1, b) .Call(wrap__build_engine, corp
 
 search <- function(engine, query, max_n) .Call(wrap__search, engine, query, max_n)
 
+Engine <- new.env(parent = emptyenv())
+
+Engine$new <- function(corpus, language, k1, b, ids) .Call(wrap__Engine__new, corpus, language, k1, b, ids)
+
+Engine$upsert <- function(id, text) .Call(wrap__Engine__upsert, self, id, text)
+
+Engine$remove <- function(id) .Call(wrap__Engine__remove, self, id)
+
+Engine$get <- function(id) .Call(wrap__Engine__get, self, id)
+
+Engine$search <- function(query, max_n) .Call(wrap__Engine__search, self, query, max_n)
+
+#' @export
+`$.Engine` <- function (self, name) { func <- Engine[[name]]; environment(func) <- environment(); func }
+
+#' @export
+`[[.Engine` <- `$.Engine`
+
 
 # nolint end
