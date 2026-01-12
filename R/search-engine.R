@@ -263,6 +263,15 @@ SearchEngine <- R6::R6Class(
       } else {
         private$engine$get(as.integer(id))
       }
+    },
+
+    #' @description Get all documents from the search engine
+    #'
+    #' @return a data.frame with id and text columns
+    #' @export
+    get_documents = function() {
+      private$check_engine()
+      private$engine$get_all_docs()
     }
   ),
   private = list(

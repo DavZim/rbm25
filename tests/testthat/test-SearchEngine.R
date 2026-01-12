@@ -186,3 +186,28 @@ test_that("SearchEngine auto-increment IDs work with upsert/remove/get", {
   doc <- engine$get(2L)
   expect_equal(doc, NA_character_)
 })
+
+test_that("get_documents() returns all documents with auto-increment IDs", {
+  engine <- SearchEngine$new(data = corpus, lang = "en")
+
+  docs <- engine$get_documents()
+
+  expect_equal(nrow(docs), 4)
+  expect_equal(ncol(docs), 2)
+  expect_equal(names(docs), c("id", "text"))
+  expect_setequal(docs$id, 1:4)
+  expect_setequal(docs$text, corpus)
+})
+
+test_that("get_documents() returns all documents with custom IDs", {
+  ids <- c("doc1", "doc2", "doc3", "doc4")
+  engine <- SearchEngine$new(data = corpus, lang = "en", ids = ids)
+
+  docs <- engine$get_documents()
+
+  expect_equal(nrow(docs), 4)
+  expect_equal(ncol(docs), 2)
+  expect_equal(names(docs), c("id", "text"))
+  expect_setequal(docs$id, ids)
+  expect_setequal(docs$text, corpus)
+})

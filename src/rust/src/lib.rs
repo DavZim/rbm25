@@ -236,6 +236,36 @@ impl Engine {
         };
         res as i32
     }
+
+    /// Get all documents from the engine
+    fn get_all_docs(&self) -> Robj {
+        match self {
+            Engine::AutoIncrement(engine) => {
+                let docs: Vec<_> = engine.iter().collect();
+                let ids = docs
+                    .iter()
+                    .map(|doc| Rint::from((doc.id + 1) as i32))
+                    .collect::<Integers>();
+                let contents = docs
+                    .iter()
+                    .map(|doc| Rstr::from(doc.contents.as_str()))
+                    .collect::<Strings>();
+                data_frame!(id = ids, text = contents)
+            }
+            Engine::ProvidedIds(engine) => {
+                let docs: Vec<_> = engine.iter().collect();
+                let ids = docs
+                    .iter()
+                    .map(|doc| Rstr::from(doc.id.as_str()))
+                    .collect::<Strings>();
+                let contents = docs
+                    .iter()
+                    .map(|doc| Rstr::from(doc.contents.as_str()))
+                    .collect::<Strings>();
+                data_frame!(id = ids, text = contents)
+            }
+        }
+    }
 }
 
 // Helper to parse language string

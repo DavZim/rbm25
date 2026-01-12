@@ -38,6 +38,7 @@ engine$search("orange", max_n = 2)
 \item \href{#method-SearchEngine-upsert}{\code{SearchEngine$upsert()}}
 \item \href{#method-SearchEngine-remove}{\code{SearchEngine$remove()}}
 \item \href{#method-SearchEngine-get}{\code{SearchEngine$get()}}
+\item \href{#method-SearchEngine-get_documents}{\code{SearchEngine$get_documents()}}
 \item \href{#method-SearchEngine-clone}{\code{SearchEngine$clone()}}
 }
 }
@@ -145,6 +146,7 @@ a data.frame with search results
 \if{html}{\out{<a id="method-SearchEngine-query"></a>}}
 \if{latex}{\out{\hypertarget{method-SearchEngine-query}{}}}
 \subsection{Method \code{query()}}{
+Search for documents matching a query with control over returned columns
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SearchEngine$query(
   query,
@@ -154,6 +156,16 @@ a data.frame with search results
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{return_text}}{whether to return the text column, default is TRUE}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a data.frame with search results
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SearchEngine-upsert"></a>}}
@@ -215,6 +227,19 @@ Get a document by ID
 }
 \subsection{Returns}{
 document text or NULL if not found
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-SearchEngine-get_documents"></a>}}
+\if{latex}{\out{\hypertarget{method-SearchEngine-get_documents}{}}}
+\subsection{Method \code{get_documents()}}{
+Get all documents from the search engine
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SearchEngine$get_documents()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+a data.frame with id and text columns
 }
 }
 \if{html}{\out{<hr>}}
