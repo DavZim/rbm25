@@ -3,6 +3,7 @@
 S3method("$",Engine)
 S3method("[[",Engine)
 export(BM25)
+export(SearchEngine)
 export(bm25_score)
 importFrom(R6,R6Class)
 useDynLib(rbm25, .registration = TRUE)

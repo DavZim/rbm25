@@ -128,7 +128,7 @@ impl Engine {
         }
     }
 
-    fn search(&self, query: &str, max_n: i32) -> List {
+    fn search(&self, query: &str, max_n: i32) -> Robj {
         match self {
             Engine::AutoIncrement(engine) => {
                 let res = engine.search(query, max_n as usize);
@@ -141,7 +141,7 @@ impl Engine {
                     .map(|r| Rstr::from(r.document.contents.clone()))
                     .collect::<Strings>();
                 let scores = res.iter().map(|r| r.score).collect::<Vec<_>>();
-                list!(id = ids, contents = contents, score = scores)
+                data_frame!(id = ids, text = contents, score = scores)
             }
             Engine::ProvidedIds(engine) => {
                 let res = engine.search(query, max_n as usize);
@@ -149,12 +149,13 @@ impl Engine {
                     .iter()
                     .map(|r| Rstr::from(r.document.id.clone()))
                     .collect::<Strings>();
+
                 let contents = res
                     .iter()
                     .map(|r| Rstr::from(r.document.contents.clone()))
                     .collect::<Strings>();
                 let scores = res.iter().map(|r| r.score).collect::<Vec<_>>();
-                list!(id = ids, contents = contents, score = scores)
+                data_frame!(id = ids, text = contents, score = scores)
             }
         }
     }
