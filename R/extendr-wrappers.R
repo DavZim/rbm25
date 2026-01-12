@@ -14,6 +14,12 @@ build_engine <- function(corpus, language, k1, b) .Call(wrap__build_engine, corp
 
 search <- function(engine, query, max_n) .Call(wrap__search, engine, query, max_n)
 
+#'
+#' @section Methods:
+#'\subsection{Method `n_docs`}{
+#'Count the number of items in the negine
+#'}
+#'
 Engine <- new.env(parent = emptyenv())
 
 Engine$new <- function(corpus, language, k1, b, ids) .Call(wrap__Engine__new, corpus, language, k1, b, ids)
@@ -25,6 +31,8 @@ Engine$remove <- function(id) .Call(wrap__Engine__remove, self, id)
 Engine$get <- function(id) .Call(wrap__Engine__get, self, id)
 
 Engine$search <- function(query, max_n) .Call(wrap__Engine__search, self, query, max_n)
+
+Engine$n_docs <- function() .Call(wrap__Engine__n_docs, self)
 
 #' @export
 `$.Engine` <- function (self, name) { func <- Engine[[name]]; environment(func) <- environment(); func }

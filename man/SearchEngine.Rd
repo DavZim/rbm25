@@ -34,6 +34,7 @@ engine$search("orange", max_n = 2)
 \item \href{#method-SearchEngine-get_lang}{\code{SearchEngine$get_lang()}}
 \item \href{#method-SearchEngine-print}{\code{SearchEngine$print()}}
 \item \href{#method-SearchEngine-search}{\code{SearchEngine$search()}}
+\item \href{#method-SearchEngine-query}{\code{SearchEngine$query()}}
 \item \href{#method-SearchEngine-upsert}{\code{SearchEngine$upsert()}}
 \item \href{#method-SearchEngine-remove}{\code{SearchEngine$remove()}}
 \item \href{#method-SearchEngine-get}{\code{SearchEngine$get()}}
@@ -141,20 +142,34 @@ a data.frame with search results
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-SearchEngine-query"></a>}}
+\if{latex}{\out{\hypertarget{method-SearchEngine-query}{}}}
+\subsection{Method \code{query()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SearchEngine$query(
+  query,
+  max_n = private$n_docs,
+  return_text = TRUE,
+  return_metadata = TRUE
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SearchEngine-upsert"></a>}}
 \if{latex}{\out{\hypertarget{method-SearchEngine-upsert}{}}}
 \subsection{Method \code{upsert()}}{
 Upsert a document
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SearchEngine$upsert(id, text)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SearchEngine$upsert(text, id = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{id}}{document ID (integer for auto-increment, character for custom IDs)}
-
 \item{\code{text}}{document text}
+
+\item{\code{id}}{document ID (integer for auto-increment, character for custom IDs)}
 }
 \if{html}{\out{</div>}}
 }
@@ -168,7 +183,7 @@ invisible self
 \subsection{Method \code{remove()}}{
 Remove a document
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SearchEngine$remove(id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SearchEngine$remove(id = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -188,7 +203,7 @@ invisible self
 \subsection{Method \code{get()}}{
 Get a document by ID
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SearchEngine$get(id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SearchEngine$get(id = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

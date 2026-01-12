@@ -154,10 +154,7 @@ SearchEngine <- R6::R6Class(
     #' @return a data.frame with search results
     #' @export
     search = function(query, max_n = private$n_docs, return_metadata = TRUE) {
-      if (is.null(private$engine)) {
-        stop("No engine available, initialize with data")
-      }
-
+      private$check_engine()
       if (is.null(max_n) || is.infinite(max_n)) {
         max_n <- private$n_docs
       }
@@ -187,6 +184,32 @@ SearchEngine <- R6::R6Class(
       res
     },
 
+    #' @description Search for documents matching a query with control over returned columns
+    #'
+    #' @inheritParams search
+    #' @param return_text whether to return the text column, default is TRUE
+    #'
+    #' @return a data.frame with search results
+    #' @export
+    query = function(
+      query,
+      max_n = private$n_docs,
+      return_text = TRUE,
+      return_metadata = TRUE
+    ) {
+      res <- self$search(
+        query,
+        max_n = max_n,
+        return_metadata = return_metadata
+      )
+
+      # if return_text = FALSE we drop the text column which
+      # is always returns by the `SearchEngine<T>::search()` method
+      if (!return_text) {
+        res$text <- NULL
+      }
+    },
+
     #' @description Upsert a document
     #'
     #' @param id document ID (integer for auto-increment, character for custom IDs)
@@ -194,11 +217,9 @@ SearchEngine <- R6::R6Class(
     #'
     #' @return invisible self
     #' @export
-    upsert = function(id, text) {
-      if (is.null(private$engine)) {
-        stop("No engine available, initialize with data first")
-      }
-
+    upsert = function(text, id = NULL) {
+      private$check_engine()
+      id <- private$validate_id(id)
       if (private$uses_ids) {
         private$engine$upsert(as.character(id), text)
       } else {
@@ -214,10 +235,9 @@ SearchEngine <- R6::R6Class(
     #'
     #' @return invisible self
     #' @export
-    remove = function(id) {
-      if (is.null(private$engine)) {
-        stop("No engine available, initialize with data first")
-      }
+    remove = function(id = NULL) {
+      private$check_engine()
+      id <- private$validate_id(id)
 
       if (private$uses_ids) {
         private$engine$remove(as.character(id))
@@ -234,10 +254,9 @@ SearchEngine <- R6::R6Class(
     #'
     #' @return document text or NULL if not found
     #' @export
-    get = function(id) {
-      if (is.null(private$engine)) {
-        stop("No engine available, initialize with data first")
-      }
+    get = function(id = NULL) {
+      private$check_engine()
+      private$validate_id(id)
 
       if (private$uses_ids) {
         private$engine$get(as.character(id))
@@ -268,6 +287,39 @@ SearchEngine <- R6::R6Class(
         ))
       }
       private$lang <- fupper(lang)
+    },
+
+    check_engine = function() {
+      if (is.null(private$engine)) {
+        stop(
+          "No engine available, initialize with `SearchEngine$new()` first",
+          call. = FALSE
+        )
+      }
+    },
+
+    validate_id = function(id = NULL) {
+      # NULL with custom IDs requires an ID to be provided
+      if (is.null(id) && private$uses_ids) {
+        stop("`id` must be provided when using custom IDs", call. = FALSE)
+      }
+
+      # NULL with auto-increment generates next ID
+      if (is.null(id) && !private$uses_ids) {
+        return(private$engine$n_docs() + 1L)
+      }
+
+      # Non-NULL with custom IDs must be character
+      if (!is.null(id) && private$uses_ids && !is.character(id)) {
+        stop("`id` must be a character", call. = FALSE)
+      }
+
+      # Non-NULL with auto-increment must be numeric/integer
+      if (!is.null(id) && !private$uses_ids && !is.numeric(id) && !is.integer(id)) {
+        stop("`id` must be numeric or integer", call. = FALSE)
+      }
+
+      return(id)
     }
   )
 )

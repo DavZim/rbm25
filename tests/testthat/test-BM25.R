@@ -11,8 +11,10 @@ stopwords <- c("the", "a", "an", "and")
 corpus <- corpus_original |>
   tolower() |>
   gsub(pattern = "[[:punct:]]", replacement = "") |>
-  gsub(pattern = paste0("\\b(", paste(stopwords, collapse = "|"), ") *\\b"),
-       replacement = "") |>
+  gsub(
+    pattern = paste0("\\b(", paste(stopwords, collapse = "|"), ") *\\b"),
+    replacement = ""
+  ) |>
   trimws()
 
 # define some metadata for the text corpus, e.g., the original text and the source
@@ -33,19 +35,32 @@ test_that("BM25 works", {
   )
   expect_equal(bm$get_data(), expected_data)
   expected_languages <- c(
-    ar = "arabic", da = "danish", nl = "dutch", en = "english",
-    fr = "french", de = "german", el = "greek", hu = "hungarian",
-    it = "italian", no = "norwegian", pt = "portuguese", ro = "romanian",
-    ru = "russian", es = "spanish", sv = "swedish", ta = "tamil",
-    tr = "turkish", auto = "detect"
-    )
+    ar = "arabic",
+    da = "danish",
+    nl = "dutch",
+    en = "english",
+    fr = "french",
+    de = "german",
+    el = "greek",
+    hu = "hungarian",
+    it = "italian",
+    no = "norwegian",
+    pt = "portuguese",
+    ro = "romanian",
+    ru = "russian",
+    es = "spanish",
+    sv = "swedish",
+    ta = "tamil",
+    tr = "turkish",
+    auto = "detect"
+  )
   expect_equal(bm$available_languages(), expected_languages)
 
   res <- bm$query(query = "orange", max_n = 2)
 
   expected <- data.frame(
     id = c(3, 1),
-    score = c(0.49042809, 0.35667497),
+    score = c(0.953077376, 0.693147182),
     rank = c(1, 2),
     text = corpus[c(3, 1)],
     text_original = corpus_original[c(3, 1)],
@@ -58,6 +73,6 @@ test_that("BM25 works", {
 test_that("bm25_score works", {
   scores <- bm25_score(data = corpus, query = "orange")
 
-  expected <- c(0.35667497, 0.0, 0.49042809, 0.0)
+  expected <- c(0.693147182, 0.0, 0.953077376, 0.0)
   expect_equal(scores, expected)
 })

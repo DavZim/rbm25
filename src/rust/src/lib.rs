@@ -83,47 +83,115 @@ impl Engine {
         }
     }
 
-    fn upsert(&mut self, id: Either<String, i32>, text: &str) {
+    fn upsert(&mut self, id: Either<Strings, Integers>, text: Strings) {
         match (self, id) {
-            (Engine::AutoIncrement(engine), Either::Right(id_int)) => {
-                let id_u32 = (id_int - 1) as u32;
-                let doc = bm25::Document::new(id_u32, text.to_string());
-                engine.upsert(doc);
-            }
-            (Engine::ProvidedIds(engine), Either::Left(id_str)) => {
-                let doc = bm25::Document::new(id_str, text.to_string());
-                engine.upsert(doc);
-            }
-            _ => throw_r_error("ID type does not match engine type".to_string()),
-        }
-    }
+            (Engine::AutoIncrement(e), Either::Right(ids)) => {
+                if ids.len() != text.len() {
+                    throw_r_error("`text` and `ids` must be the same length")
+                }
 
-    fn remove(&mut self, id: Either<String, i32>) {
-        match (self, id) {
-            (Engine::AutoIncrement(engine), Either::Right(id_int)) => {
-                let id_u32 = (id_int - 1) as u32;
-                engine.remove(&id_u32);
-            }
-            (Engine::ProvidedIds(engine), Either::Left(id_str)) => {
-                engine.remove(&id_str);
-            }
-            _ => throw_r_error("ID type does not match engine type".to_string()),
-        }
-    }
+                for (idx, txt) in ids.into_iter().zip(text.into_iter()) {
+                    if idx.is_na() | txt.is_na() {
+                        continue;
+                    }
 
-    fn get(&self, id: Either<String, i32>) -> Robj {
-        match (self, id) {
-            (Engine::AutoIncrement(engine), Either::Right(id_int)) => {
-                let id_u32 = (id_int - 1) as u32;
-                match engine.get(&id_u32) {
-                    Some(doc) => doc.contents.into(),
-                    None => NULL.into(),
+                    if *idx < 0 {
+                        throw_r_error("The provided `id` must be positive")
+                    }
+
+                    let id_u32 = (idx.0 - 1) as u32;
+                    let doc = bm25::Document::new(id_u32, txt.to_string());
+                    e.upsert(doc);
                 }
             }
-            (Engine::ProvidedIds(engine), Either::Left(id_str)) => match engine.get(&id_str) {
-                Some(doc) => doc.contents.into(),
-                None => NULL.into(),
-            },
+            (Engine::ProvidedIds(e), Either::Left(ids)) => {
+                if ids.len() != text.len() {
+                    throw_r_error("`text` and `ids` must be the same length")
+                }
+
+                for (idx, txt) in ids.into_iter().zip(text.into_iter()) {
+                    if idx.is_na() | txt.is_na() {
+                        continue;
+                    }
+
+                    let doc = bm25::Document::new(idx.to_string(), txt.to_string());
+                    e.upsert(doc);
+                }
+            }
+            _ => throw_r_error("Provided ID types do not match the engine type"),
+        }
+    }
+
+    fn remove(&mut self, id: Either<Strings, Integers>) {
+        match (self, id) {
+            (Engine::AutoIncrement(engine), Either::Right(ids)) => {
+                for idx in ids.into_iter() {
+                    if idx.is_na() {
+                        continue;
+                    }
+
+                    if *idx < 0 {
+                        throw_r_error("The provided `id` must be positive")
+                    }
+
+                    let id_u32 = (idx.0 - 1) as u32;
+                    engine.remove(&id_u32);
+                }
+            }
+            (Engine::ProvidedIds(engine), Either::Left(ids)) => {
+                for idx in ids.into_iter() {
+                    if idx.is_na() {
+                        continue;
+                    }
+
+                    engine.remove(&idx.to_string());
+                }
+            }
+            _ => throw_r_error("ID type does not match engine type".to_string()),
+        }
+    }
+
+    fn get(&self, id: Either<Strings, Integers>) -> Robj {
+        match (self, id) {
+            (Engine::AutoIncrement(engine), Either::Right(ids)) => {
+                let results: Strings = ids
+                    .into_iter()
+                    .map(|idx| {
+                        if idx.is_na() {
+                            return Rstr::na();
+                        }
+
+                        if *idx < 0 {
+                            throw_r_error("The provided `id` must be positive")
+                        }
+
+                        let id_u32 = (idx.0 - 1) as u32;
+                        match engine.get(&id_u32) {
+                            Some(doc) => Rstr::from(doc.contents.as_str()),
+                            None => Rstr::na(),
+                        }
+                    })
+                    .collect();
+
+                results.into()
+            }
+            (Engine::ProvidedIds(engine), Either::Left(ids)) => {
+                let results: Strings = ids
+                    .into_iter()
+                    .map(|idx| {
+                        if idx.is_na() {
+                            return Rstr::na();
+                        }
+
+                        match engine.get(&idx.to_string()) {
+                            Some(doc) => Rstr::from(doc.contents.as_str()),
+                            None => Rstr::na(),
+                        }
+                    })
+                    .collect();
+
+                results.into()
+            }
             _ => throw_r_error("ID type does not match engine type".to_string()),
         }
     }
@@ -158,6 +226,15 @@ impl Engine {
                 data_frame!(id = ids, text = contents, score = scores)
             }
         }
+    }
+
+    /// Count the number of items in the negine
+    fn n_docs(&self) -> i32 {
+        let res = match self {
+            Engine::AutoIncrement(v) => v.iter().count(),
+            Engine::ProvidedIds(v) => v.iter().count(),
+        };
+        res as i32
     }
 }
 

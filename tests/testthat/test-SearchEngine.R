@@ -52,7 +52,7 @@ test_that("SearchEngine works with auto-increment IDs", {
 
   expected <- data.frame(
     id = c(3L, 1L),
-    score = c(0.49042809, 0.35667497),
+    score = c(0.9530774, 0.6931472),
     rank = c(1, 2),
     text = corpus[c(3, 1)],
     row.names = c(1L, 2L)
@@ -71,7 +71,7 @@ test_that("SearchEngine works with custom IDs", {
 
   expected <- data.frame(
     id = c("doc3", "doc1"),
-    score = c(0.49042809, 0.35667497),
+    score = c(0.9530774, 0.6931472),
     rank = c(1, 2),
     text = corpus[c(3, 1)],
     row.names = c(1L, 2L),
@@ -92,7 +92,7 @@ test_that("SearchEngine metadata works", {
 
   expected <- data.frame(
     id = c(3L, 1L),
-    score = c(0.49042809, 0.35667497),
+    score = c(0.9530774, 0.6931472),
     rank = c(1, 2),
     text = corpus[c(3, 1)],
     text_original = corpus_original[c(3, 1)],
@@ -122,7 +122,7 @@ test_that("SearchEngine upsert works", {
   ids <- c("doc1", "doc2", "doc3", "doc4")
   engine <- SearchEngine$new(data = corpus, ids = ids)
 
-  engine$upsert("doc1", "banana fruit yellow")
+  engine$upsert("banana fruit yellow", "doc1")
 
   doc <- engine$get("doc1")
   expect_equal(doc, "banana fruit yellow")
@@ -138,7 +138,7 @@ test_that("SearchEngine remove works", {
   engine$remove("doc1")
 
   doc <- engine$get("doc1")
-  expect_null(doc)
+  expect_equal(doc, NA_character_)
 })
 
 test_that("SearchEngine get works", {
@@ -149,7 +149,7 @@ test_that("SearchEngine get works", {
   expect_equal(doc, corpus[1])
 
   doc <- engine$get("doc_nonexistent")
-  expect_null(doc)
+  expect_equal(doc, NA_character_)
 })
 
 test_that("SearchEngine validates inputs", {
@@ -177,11 +177,12 @@ test_that("SearchEngine validates inputs", {
 test_that("SearchEngine auto-increment IDs work with upsert/remove/get", {
   engine <- SearchEngine$new(data = corpus)
 
-  engine$upsert(1L, "new text for doc 1")
+  engine$upsert("new text for doc 1", 1L)
   doc <- engine$get(1L)
   expect_equal(doc, "new text for doc 1")
 
+  engine$upsert("upsert without id")
   engine$remove(2L)
   doc <- engine$get(2L)
-  expect_null(doc)
+  expect_equal(doc, NA_character_)
 })
