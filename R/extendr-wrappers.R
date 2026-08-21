@@ -10,7 +10,7 @@
 #' @useDynLib rbm25, .registration = TRUE
 NULL
 
-build_engine <- function(corpus, language, k1, b) .Call(wrap__build_engine, corpus, language, k1, b)
+build_engine <- function(corpus, language, avgdl, k1, b) .Call(wrap__build_engine, corpus, language, avgdl, k1, b)
 
 search <- function(engine, query, max_n) .Call(wrap__search, engine, query, max_n)
 

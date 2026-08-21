@@ -99,6 +99,8 @@ bm25$query("orange", max_n = 3)
 \item \href{#method-BM25-print}{\code{BM25$print()}}
 \item \href{#method-BM25-add_data}{\code{BM25$add_data()}}
 \item \href{#method-BM25-query}{\code{BM25$query()}}
+\item \href{#method-BM25-store}{\code{BM25$store()}}
+\item \href{#method-BM25-load}{\code{BM25$load()}}
 \item \href{#method-BM25-clone}{\code{BM25$clone()}}
 }
 }
@@ -333,6 +335,70 @@ bm25$query("orange", max_n = 2)
 bm25$query("orange", max_n = 3)
 bm25$query("orange", return_text = FALSE, return_metadata = FALSE)
 bm25$query("orange", max_n = 3)
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BM25-store"></a>}}
+\if{latex}{\out{\hypertarget{method-BM25-store}{}}}
+\subsection{Method \code{store()}}{
+Stores a BM25 object to a file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BM25$store(file)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{file}}{the file to store the object to, will be stored as an RDS file}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+the filepath silently
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{bm25 <- BM25$new(data = letters, metadata = LETTERS)
+file <- tempfile(fileext = ".rds")
+bm25$store(file)
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BM25-load"></a>}}
+\if{latex}{\out{\hypertarget{method-BM25-load}{}}}
+\subsection{Method \code{load()}}{
+Loads a BM25 object from a file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BM25$load(file)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{file}}{the file to load the object from, must be an RDS file}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+nothing
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{bm25 <- BM25$new(data = letters, metadata = LETTERS)
+file <- tempfile(fileext = ".rds")
+bm25$store(file)
+
+bm25_loaded <- BM25$new()
+bm25_loaded$load(file)
+bm25_loaded
 }
 \if{html}{\out{</div>}}
 

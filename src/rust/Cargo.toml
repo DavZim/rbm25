@@ -10,5 +10,7 @@ crate-type = [ 'staticlib' ]
 name = 'rbm25'
 
 [dependencies]
-bm25 = { version = "0.3.1", features = ["language_detection"] }
-extendr-api = '0.8.0'
+bm25 = { version = "2.3.2", features = ["language_detection"]}
+extendr-api = '0.9.0'
+# transitive dep of bm25; pinned because 1.13+ raises MSRV above our rust-version above
+unicode-segmentation = "=1.12.0"

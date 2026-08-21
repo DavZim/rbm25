@@ -26,6 +26,8 @@ BM25 <- R6::R6Class(
     #' can also be "detect" to automatically detect the language,  default is "detect"
     #' @param k1 k1 parameter of BM25, default is 1.2
     #' @param b b parameter of BM25, default is 0.75
+    #' @param avgdl avgdl (average document length) parameter of BM25, default is NULL,
+    #' in which case the default of bm25 is used
     #' @param metadata a data.frame with metadata for each document, default is NULL
     #' must be a data.frame with the same number of rows containing arbitrary
     #' metadata for each document, e.g. a file path or a URL
@@ -48,10 +50,11 @@ BM25 <- R6::R6Class(
     #' bm25$query("orange", max_n = 2)
     #' bm25$query("orange", max_n = 3)
     #' bm25$query("orange") # return all, same as max_n = Inf or NULL
-    initialize = function(data = NULL, lang = "detect", k1 = 1.2, b = 0.75,
-                          metadata = NULL) {
+    initialize = function(data = NULL, lang = "detect",
+                          k1 = 1.2, b = 0.75, avgdl = NULL, metadata = NULL) {
       private$k1 <- k1
       private$b <- b
+      private$avgdl <- avgdl
 
       if (!is.null(lang)) private$set_lang(lang)
       if (is.null(lang) && is.null(private$lang))
@@ -154,8 +157,13 @@ BM25 <- R6::R6Class(
 
       if (!is.null(metadata)) private$add_metadata(data, metadata)
       private$data <- c(private$data, data)
+
+      avgdl <- private$avgdl
+      if (is.null(avgdl)) avgdl <- get_avgdl(private$data)
+
       private$engine <- build_engine(corpus = private$data,
                                      language = private$lang,
+                                     avgdl = avgdl,
                                      k1 = private$k1, b = private$b)
     },
     #' @description Query the BM25 object for the N best matches
@@ -205,13 +213,69 @@ BM25 <- R6::R6Class(
       if (return_metadata && !is.null(private$metadata))
         res <- cbind(res, private$metadata[res$id, , drop = FALSE])
 
+      res <- res[order(res$rank), ]
       res <- res[seq(max_n), ]
-      res[order(res$rank), ]
+      res
+    },
+    #' @description Stores a BM25 object to a file
+    #'
+    #' @param file the file to store the object to, will be stored as an RDS file
+    #'
+    #' @return the filepath silently
+    #' @export
+    #'
+    #' @examples
+    #' bm25 <- BM25$new(data = letters, metadata = LETTERS)
+    #' file <- tempfile(fileext = ".rds")
+    #' bm25$store(file)
+    store = function(file) {
+      ll <- list(
+        k1 = private$k1,
+        b = private$b,
+        avgdl = private$avgdl,
+        lang = private$lang,
+        data = private$data,
+        metadata = private$metadata
+      )
+      saveRDS(ll, file)
+      invisible(file)
+    },
+    #' @description Loads a BM25 object from a file
+    #'
+    #' @param file the file to load the object from, must be an RDS file
+    #'
+    #' @return nothing
+    #' @export
+    #'
+    #' @examples
+    #' bm25 <- BM25$new(data = letters, metadata = LETTERS)
+    #' file <- tempfile(fileext = ".rds")
+    #' bm25$store(file)
+    #'
+    #' bm25_loaded <- BM25$new()
+    #' bm25_loaded$load(file)
+    #' bm25_loaded
+    load = function(file) {
+      ll <- readRDS(file)
+      private$k1 <- ll$k1
+      private$b <- ll$b
+      private$avgdl <- ll$avgdl
+      private$lang <- ll$lang
+      private$data <- ll$data
+      private$metadata <- ll$metadata
+
+      # rebuilding the engine is equivalent to deserializing it, since it is
+      # fully determined by the corpus and parameters restored above
+      avgdl <- private$avgdl
+      if (is.null(avgdl)) avgdl <- get_avgdl(private$data)
+      private$engine <- build_engine(corpus = private$data, language = private$lang,
+                                     avgdl = avgdl, k1 = private$k1, b = private$b)
     }
   ),
   private = list(
     k1 = 1.2, # BM25 parameter
     b = 0.75, # BM25 parameter
+    avgdl = NULL, # BM25 parameter average document length
     lang = NULL, # language for the BM25 engine used
     data = NULL, # a vector of the text corpus
     metadata = NULL, # a data.frame (same length as data) or NULL
@@ -250,3 +314,8 @@ BM25 <- R6::R6Class(
 
 # small helper function to capitalize the first letter of a string
 fupper <- function(x) paste0(toupper(substr(x, 1, 1)), tolower(substr(x, 2, nchar(x))))
+
+get_avgdl <- function(x) {
+  # TODO add stopwords removal
+  mean(sapply(strsplit(gsub("[\\.]", "", tolower(x)), "\\s+"), length))
+}

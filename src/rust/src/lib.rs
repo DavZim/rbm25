@@ -6,10 +6,11 @@ use bm25::{
   SearchEngine
 };
 
+
 // Build a search engine from a corpus.
 // default values: k1 = 1.2, b = 0.75
 #[extendr]
-fn build_engine(corpus: Vec<String>, language: &str, k1: f32, b: f32) -> ExternalPtr<SearchEngine<u32>> {
+fn build_engine(corpus: Vec<String>, language: &str, avgdl: f32, k1: f32, b: f32) -> ExternalPtr<SearchEngine<u32>> {
   let search_engine = if language == "Detect"{
     SearchEngineBuilder::<u32>::with_corpus(LanguageMode::Detect, corpus)
   } else {
@@ -37,7 +38,7 @@ fn build_engine(corpus: Vec<String>, language: &str, k1: f32, b: f32) -> Externa
   SearchEngineBuilder::<u32>::with_corpus(lang, corpus)
   };
 
-  let res = search_engine.k1(k1).b(b).build();
+  let res = search_engine.avgdl(avgdl).k1(k1).b(b).build();
 
   ExternalPtr::new(res)
 }
@@ -61,11 +62,12 @@ fn search(engine: ExternalPtr<SearchEngine<u32>>, query: &str, max_n: usize) -> 
 }
 
 
+
 // Macro to generate exports.
 // This ensures exported functions are registered with R.
 // See corresponding C code in `entrypoint.c`.
 extendr_module! {
-    mod rbm25;
-    fn build_engine;
-    fn search;
+  mod rbm25;
+  fn build_engine;
+  fn search;
 }

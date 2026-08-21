@@ -45,7 +45,7 @@ test_that("BM25 works", {
 
   expected <- data.frame(
     id = c(3, 1),
-    score = c(0.49042809, 0.35667497),
+    score = c(0.95307738, 0.69314718),
     rank = c(1, 2),
     text = corpus[c(3, 1)],
     text_original = corpus_original[c(3, 1)],
@@ -58,6 +58,22 @@ test_that("BM25 works", {
 test_that("bm25_score works", {
   scores <- bm25_score(data = corpus, query = "orange")
 
-  expected <- c(0.35667497, 0.0, 0.49042809, 0.0)
+  expected <- c(0.69314718, 0.0, 0.95307738, 0.0)
   expect_equal(scores, expected)
+})
+
+test_that("BM25 store and load work", {
+  bm <- BM25$new(data = corpus, metadata = metadata)
+
+  file <- tempfile(fileext = ".rds")
+  on.exit(unlink(file))
+  expect_invisible(bm$store(file))
+  expect_true(file.exists(file))
+
+  bm_loaded <- BM25$new()
+  bm_loaded$load(file)
+
+  expect_equal(bm_loaded$get_lang(), bm$get_lang())
+  expect_equal(bm_loaded$get_data(), bm$get_data())
+  expect_equal(bm_loaded$query("orange", max_n = 2), bm$query("orange", max_n = 2))
 })
