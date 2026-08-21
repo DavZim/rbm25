@@ -1,0 +1,82 @@
+# Authors and Citation
+
+## Authors
+
+- **David Zimmermann-Kollenda**. Author, maintainer.
+
+- **Michael Barlow**. Author.  
+  bm25 Rust library
+
+- **Authors of the dependency Rust crates**. Author.  
+  see AUTHORS file
+
+## Citation
+
+Source:
+[`DESCRIPTION`](https://github.com/DavZim/rbm25/blob/main/DESCRIPTION)
+
+Zimmermann-Kollenda D, Michael Barlow, Authors of the dependency Rust
+crates (2026). *rbm25: A Light Wrapper Around the 'BM25' 'Rust' Crate
+for Okapi BM25 Text Search*. R package version 2.3.2,
+<https://davzim.github.io/rbm25/>.
+
+    @Manual{,
+      title = {rbm25: A Light Wrapper Around the 'BM25' 'Rust' Crate for Okapi BM25 Text Search},
+      author = {David Zimmermann-Kollenda and {Michael Barlow} and {Authors of the dependency Rust crates}},
+      year = {2026},
+      note = {R package version 2.3.2},
+      url = {https://davzim.github.io/rbm25/},
+    }
+
+## Additional details
+
+    Authors of vendored cargo crates
+     - ahash 0.8.11: Tom Kaitchuck
+     - allocator-api2 0.2.21: Zakarum
+     - bm25 0.3.1: Michael
+     - bumpalo 3.16.0: Nick Fitzgerald
+     - byteorder 1.5.0: Andrew Gallant
+     - cached 0.53.1: James Kominick
+     - cached_proc_macro 0.23.0: csos95, James Kominick
+     - cached_proc_macro_types 0.1.1: James Kominick
+     - cfg-if 1.0.0: Alex Crichton
+     - darling 0.20.10: Ted Driggs
+     - darling_core 0.20.10: Ted Driggs
+     - darling_macro 0.20.10: Ted Driggs
+     - extendr-api 0.7.1: andy-thomason, Thomas Down, Mossa Merhi Reimert, Claus O. Wilke, Hiroaki Yutani, Ilia A. Kosenkov, Michael Milton
+     - extendr-macros 0.7.1: andy-thomason, Thomas Down, Mossa Merhi Reimert, Claus O. Wilke, Hiroaki Yutani, Ilia A. Kosenkov, Michael Milton
+     - fnv 1.0.7: Alex Crichton
+     - fxhash 0.2.1: cbreeden
+     - hashbrown 0.14.5: Amanieu d'Antras
+     - ident_case 1.0.1: Ted Driggs
+     - itoa 1.0.14: David Tolnay
+     - js-sys 0.3.76: The wasm-bindgen Developers
+     - libR-sys 0.7.1: andy-thomason, Thomas Down, Mossa Merhi Reimert, Claus O. Wilke, Ilia A. Kosenkov, Hiroaki Yutani
+     - log 0.4.22: The Rust Project Developers
+     - memchr 2.7.4: Andrew Gallant, bluss
+     - once_cell 1.20.2: Aleksey Kladov
+     - paste 1.0.15: David Tolnay
+     - proc-macro2 1.0.92: David Tolnay, Alex Crichton
+     - quote 1.0.38: David Tolnay
+     - rust-stemmers 1.2.0: Jakob Demler, CurrySoftware
+     - ryu 1.0.18: David Tolnay
+     - serde 1.0.217: Erick Tryzelaar, David Tolnay
+     - serde_derive 1.0.217: Erick Tryzelaar, David Tolnay
+     - serde_json 1.0.135: Erick Tryzelaar, David Tolnay
+     - stop-words 0.8.1: Chris McComb
+     - strsim 0.11.1: Danny Guo, maxbachmann
+     - syn 2.0.96: David Tolnay
+     - thiserror 1.0.69: David Tolnay
+     - thiserror-impl 1.0.69: David Tolnay
+     - unicode-ident 1.0.14: David Tolnay
+     - version_check 0.9.5: Sergio Benitez
+     - wasm-bindgen 0.2.99: The wasm-bindgen Developers
+     - wasm-bindgen-backend 0.2.99: The wasm-bindgen Developers
+     - wasm-bindgen-macro 0.2.99: The wasm-bindgen Developers
+     - wasm-bindgen-macro-support 0.2.99: The wasm-bindgen Developers
+     - wasm-bindgen-shared 0.2.99: The wasm-bindgen Developers
+     - whichlang 0.1.0: Quickwit, Inc.
+     - zerocopy 0.7.35: Joshua Liebow-Feeser
+     - zerocopy-derive 0.7.35: Joshua Liebow-Feeser
+
+    (This file was auto-generated from 'cargo metadata' on 2025-01-10)
